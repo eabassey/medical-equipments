@@ -9,9 +9,7 @@ function App() {
   return (
     <>
       <Header />
-      <Container fluid="md">
-        <Report />
-    </Container>
+      <Report />
     </>
   );
 }
