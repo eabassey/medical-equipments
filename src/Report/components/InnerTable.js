@@ -4,7 +4,7 @@ import DataTable from 'react-data-table-component';
 import { useForm } from "react-hook-form";
 import TableItem from './TableItem';
 
-const InnerTable = ({data, removeEquipmentLine}) => {
+const InnerTable = ({equipmentList, removeEquipmentLine}) => {
     const [selectedId, setSelectedId] = useState('');
     const { register, handleSubmit, watch, errors, formState, reset } = useForm();
     const updateForm = (ev) => {
@@ -27,8 +27,8 @@ const InnerTable = ({data, removeEquipmentLine}) => {
                 </tr>
             </thead>
             <tbody>
-                {data && data.map((eq, i) => (
-                 <TableItem key={eq.id} item={eq} index={i} removeEquipmentLine={removeEquipmentLine}/>
+                {equipmentList && equipmentList.map((eq, i) => (
+                 <TableItem key={eq.id} equipment={eq} index={i} removeEquipmentLine={removeEquipmentLine}/>
                 ))}
             </tbody>
             </Table>

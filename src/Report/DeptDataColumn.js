@@ -77,7 +77,7 @@ const DeptDataColumn = ({setData, data, department, deleteDepartmentLine}) => {
 
             <h2 style={{textAlign: 'center'}}>{selectedDepartment && selectedDepartment.text}</h2>
             <Button size="sm" type="button" onClick={addNewEquipmentLine}>New Equipment</Button>
-            <InnerTable data={equipmentList} removeEquipmentLine={removeEquipmentLine} />
+            <InnerTable equipmentList={equipmentList} removeEquipmentLine={removeEquipmentLine} />
         </>
     );
 };
