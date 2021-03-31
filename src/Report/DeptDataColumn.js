@@ -1,48 +1,56 @@
 import React, {useState} from 'react';
-import {DropdownButton, Dropdown, Button} from 'react-bootstrap';
+import {DropdownButton, Dropdown, Button    } from 'react-bootstrap';
 import DataTable from 'react-data-table-component';
+import { useForm } from "react-hook-form";
+import InnerTable from './components/InnerTable';
+import {v4 as uuidv4} from 'uuid';
 
-const DeptDataColumn = ({wards}) => {
-    const [text, setText] = useState('');
-    const deptColumns = [
-        {
-            name: "Equipment",
-            selector: 'name'
-        },
-        {
-            name: 'Unit Cost',
-            selector: 'unitCost'
-        },
-        {
-            name: 'Quantity',
-            selector: 'quantity'
-        },
-        {
-            name: 'Total'
-        },
-        {
-            name: 'Actions',
-            cell: (row) => (
-                <DropdownButton id="dropdown-basic-button" title="Actions" size="sm">
-                    <Dropdown.Item href="#/action-1">Edit</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2">Delete</Dropdown.Item>
-                </DropdownButton>
-            )
-        }
-    ];
-    const equipmentData = [
-        { name: 'Bed', unitCost: 120, quantity: 12 },
-        { name: 'Trolly', unitCost: 60, quantity: 3 },
-    ];
+const departmentList = {
+    'male-ward': 'Male Ward',
+    'female-ward': 'Female Ward',
+    'children-ward': 'Children Ward',
+    'patient-ward': 'Patient Ward',
+    'nursing-ward': 'Nursing Ward',
+}
+
+const DeptDataColumn = ({setData, data, department, deleteDepartmentLine}) => {
+    const [selectedId, setSelectedId] = useState('');
+    const [equipmentList, setEquipmentList] = useState(department.equipments);
+    const { register, handleSubmit, watch, errors, formState, reset } = useForm();
+    const updateForm = (ev) => {
+        const x = handleSubmit((data) => {
+            console.log({data});
+        });
+        x();
+    }
+
+    const addNewEquipmentLine = () => {
+        const newLine = {id: uuidv4(), name: '', unitCost: '', quantity: ''}
+        setEquipmentList((prev) => [...prev, newLine]);
+    }
+
+    const removeEquipmentLine = (id) => {
+        setEquipmentList((prev) => {
+            return prev.filter((e) => e.id !== id);
+        })
+    }
+
+
 
     return (
         <>
-            <DropdownButton title={text || 'Select Department'} size="sm">
-                {wards && wards.map(w => (
-                    <Dropdown.Item key={w} as="button" onClick={() => setText(w)}>{w}</Dropdown.Item>
-                ))}
-            </DropdownButton>
-            <DataTable columns={deptColumns} data={equipmentData} overflowY={true} />
+            <div>
+                <DropdownButton title={selectedId ? departmentList[selectedId] : 'Select Department'} size="sm">
+                    {Object.entries(departmentList).map(([deptKey, deptText]) => (
+                        <Dropdown.Item key={deptKey} as="button" onClick={() => setSelectedId(deptKey)}>{deptText}</Dropdown.Item>
+                    ))}
+                </DropdownButton>
+                <Button size="sm" type="button" variant="danger" onClick={() => deleteDepartmentLine(department.id)}>Delete <i class="fa fa-trash-o" aria-hidden="true"></i></Button>
+            </div>
+
+            <h2 style={{textAlign: 'center'}}>{selectedId && departmentList[selectedId]}</h2>
+            <Button size="sm" type="button" onClick={addNewEquipmentLine}>New Equipment</Button>
+            <InnerTable data={equipmentList} removeEquipmentLine={removeEquipmentLine} />
         </>
     );
 };

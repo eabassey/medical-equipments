@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
-import {DropdownButton, Dropdown} from 'react-bootstrap';
+import {DropdownButton, Dropdown, Button} from 'react-bootstrap';
 
 
-export default function ReportHeading({list}) {
+export default function ReportHeading({list, addNewDepartmentLine}) {
     const [text, setText] = useState('');
 
     return (
@@ -12,7 +12,8 @@ export default function ReportHeading({list}) {
                     <Dropdown.Item key={f} as="button" onClick={() => setText(f)}>{f}</Dropdown.Item>
                 ))}
             </DropdownButton>
-           {text && <h1>{text} Equipment Specification Details</h1>}
+           {text && <h1 style={{textAlign: 'center'}}>{text} Equipment Specification Details</h1>}
+           <Button size="sm" type="button" onClick={addNewDepartmentLine}>New Department</Button>
         </div>
     )
 }
