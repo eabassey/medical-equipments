@@ -14,7 +14,9 @@ const TableItem= ({item, index, removeEquipmentLine}) => {
         <>
             <tr>
                 <td>{index + 1}</td>
-                <td>{state.name}</td>
+                <td>
+                    <input type="text" className="form-control" name={`${state.name}`} onChange={(ev) => setState(prev => ({...prev, name: ev.target.value}))} defaultValue={state.name} ref={register({required: true})} />
+                </td>
                 <td>
                     <input type="number" className="form-control" name={`${state.name}-unitCost`} onChange={(ev) => setState(prev => ({...prev, unitCost: ev.target.value}))} defaultValue={state.unitCost} ref={register({valueAsNumber: true})} />
                 </td>

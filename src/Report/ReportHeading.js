@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {DropdownButton, Dropdown, Button} from 'react-bootstrap';
 
 
-export default function ReportHeading({list, addNewDepartmentLine}) {
+export default function ReportHeading({list, addNewDepartmentLine, selectedDepartment, setSelectedDepartment}) {
     const [text, setText] = useState('');
 
     return (
