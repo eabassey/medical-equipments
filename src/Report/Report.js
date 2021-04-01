@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ReportHeading from './ReportHeading';
 import ReportBody from './ReportBody';
 import {v4 as uuidv4} from 'uuid';
+import db from '../firestore';
 
 
 
@@ -23,7 +24,26 @@ export default function Report () {
         //         {id: '423', name: 'Warmer', unitCost: 40, quantity: 6}
         //     ]
         // }
-    ])
+    ]);
+    const [deptLookup, setDeptLookup] = useState([]);
+
+    const fetchDepartments=async()=>{
+        const response=db.collection('departments');
+        const data=await response.get();
+        const res = data.docs.map(item => ({id: item.id, ...item.data()}));
+        setDeptLookup(res)
+      };
+
+
+    useEffect(async () => {
+        fetchDepartments();
+        console.log({'happen': deptLookup})
+    }, []);
+
+    useEffect(() => {
+        console.log({deptLookup})
+    }, [deptLookup]);
+
     const list = [
         'Teaching Hospital',
         'Regional Hospital',
@@ -51,7 +71,7 @@ export default function Report () {
     return (
         <div>
                 <ReportHeading list={list} addNewDepartmentLine={addNewDepartmentLine}  />
-                <ReportBody departments={departments} deleteDepartmentLine={deleteDepartmentLine} />
+                <ReportBody departments={departments} deleteDepartmentLine={deleteDepartmentLine} deptLookup={deptLookup} setDeptLookup={setDeptLookup} />
         </div>
     );
 }

@@ -17,7 +17,17 @@ const TableItem= ({equipment, index, removeEquipmentLine}) => {
             <tr>
                 <td>{index + 1}</td>
                 <td>
-                    <input type="text" disabled={equipmentState && equipmentState.name ? equipmentNameDisabled : false} className="form-control" name={`${equipmentState.name}`} onChange={(ev) => setEquipmentState(prev => ({...prev, name: ev.target.value}))} defaultValue={equipmentState.name} ref={register({required: true})} />
+                    <input  
+                    type="text" 
+                    disabled={equipmentState && equipmentState.name ? equipmentNameDisabled : false}
+                     className="form-control" name={`${equipmentState.name}`} 
+                     onBlur={(ev) => {
+                        setEquipmentState(prev => ({...prev, name: ev.target.value}));
+                        setEqupmentNameDisabled(true);
+                     }} 
+                    onChange={(ev) => equipmentState && equipmentState.name && setEquipmentState(prev => ({...prev, name: ev.target.value}))} 
+                    defaultValue={equipmentState.name} 
+                    ref={register({required: true})} />
                 </td>
                 <td>
                     <input type="number" className="form-control" name={`${equipmentState.name}-unitCost`} onChange={(ev) => setEquipmentState(prev => ({...prev, unitCost: ev.target.value}))} defaultValue={equipmentState.unitCost} ref={register({valueAsNumber: true})} />

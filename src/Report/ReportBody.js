@@ -4,7 +4,7 @@ import {Table} from 'react-bootstrap';
 import DeptDataColumn from './DeptDataColumn'
 
 
-export default function ReportBody({departments, deleteDepartmentLine}) {
+export default function ReportBody({departments, deleteDepartmentLine, deptLookup, setDeptLookup}) {
     return (
         <div>
             <Table striped bordered hover size="sm">
@@ -19,7 +19,7 @@ export default function ReportBody({departments, deleteDepartmentLine}) {
                             <tr key={department.id}>
                                 <td>{i + 1}</td>
                                 <td>
-                                     <DeptDataColumn department={department} deleteDepartmentLine={deleteDepartmentLine}/>
+                                     <DeptDataColumn department={department} deleteDepartmentLine={deleteDepartmentLine} deptLookup={deptLookup} setDeptLookup={setDeptLookup}/>
                                 </td>
                             </tr>
                        ))}
